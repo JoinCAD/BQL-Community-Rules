@@ -1,0 +1,22 @@
+levelData(Level, Name, Document, Elev, DocTitle) :-
+	class(Level, 'Level'),
+	parameter(Level, 'Name', Name),
+	property(Level, 'Document', Document),
+	property(Level, 'Elevation', Elev),
+	objectProperty(Document, 'Title', DocTitle).
+
+structuralLevel(Name, Elev) :-
+	levelData(Level, Name, Document, Elev, DocTitle),
+	substring(DocTitle, '- S').
+
+archLevel(Name, Elev) :-
+	levelData(Level, Name, Document, Elev, DocTitle),
+	substring(DocTitle, '- A').
+
+select(Name, StrucElev, ArchElev) :-
+	structuralLevel(Name, StrucElev),
+	archLevel(Name, ArchElev).
+
+test(Name, StrucElev, ArchElev) :-
+	select(Name, StrucElev, ArchElev),
+	equals(StrucElev, ArchElev).

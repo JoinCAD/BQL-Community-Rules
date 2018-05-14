@@ -1,1 +1,1 @@
-# BQL-rules
+# BQL community rules
