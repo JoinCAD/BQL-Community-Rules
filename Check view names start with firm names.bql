@@ -1,0 +1,11 @@
+% Check all view names start with firm names.
+
+select(Name, ViewType, View) :- 
+	category(View, 'Views'),
+    parameter(View, 'View Name', Name),
+    parameter(View, 'Type', Type),
+    parameter(Type, 'Type Name', ViewType).
+
+test(Name, ViewType, View) :-
+    select(Name, ViewType, View),
+    matchRegex(Name, '^M \\+ E').

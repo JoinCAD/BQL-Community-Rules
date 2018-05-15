@@ -1,0 +1,14 @@
+% Check all view names start with firm names.
+
+ceilingPlan('Ceiling Plan').
+
+select(Name, ViewType, View) :- 
+	category(View, 'Views'),
+    parameter(View, 'View Name', Name),
+    parameter(View, 'Type', Type),
+    parameter(Type, 'Type Name', ViewType),
+    ceilingPlan(ViewType).
+
+test(Name, ViewType, View) :-
+    select(Name, ViewType, View),
+    !matchRegex(Name, '- FP -').

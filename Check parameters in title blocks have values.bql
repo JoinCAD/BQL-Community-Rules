@@ -1,0 +1,10 @@
+% Check if title block parameters are assigned with a value.
+
+select(SheetName, ParameterName, Value, TitleBlock) :-
+	category(TitleBlock, 'Title Blocks'),
+    parameter(TitleBlock, 'Sheet Name', SheetName),
+    parameter(TitleBlock, ParameterName, Value).
+    
+test(SheetName, ParameterName, Value, TitleBlock) :-
+	select(SheetName, ParameterName, Value, TitleBlock),
+    !equals(Value, '').
