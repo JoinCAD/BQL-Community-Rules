@@ -1,3 +1,6 @@
+% Check if structural levels match architectural levels in linked models. 
+% You can modify the substring(DocTitle, ' - S') to make it suitable for your model.
+
 levelData(Level, Name, Document, Elev, DocTitle) :-
 	class(Level, 'Level'),
 	parameter(Level, 'Name', Name),
