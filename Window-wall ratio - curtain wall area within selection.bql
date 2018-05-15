@@ -1,0 +1,13 @@
+% Calculate curtain wall area (including mullions) within selection.
+
+curtainWallArea(Element, Area) :- 
+	selected(Element), 
+    category(Element, 'Walls'), 
+    parameter(Element, 'Family Name', 'Curtain Wall'),
+    parameter(Element, 'Area', Area).
+
+select(CurtainWallArea, CurtainWallCount, CurtainWalls) :-
+	curtainWallArea(Element, Area),
+    sum(Area, CurtainWallArea),
+    count(Element, CurtainWallCount),
+    group(Element, CurtainWalls).

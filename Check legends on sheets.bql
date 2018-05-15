@@ -1,0 +1,21 @@
+% Check if legends are used multiple times on sheets.
+
+legendOnSheet(ViewName, SheetNumber, SheetName) :-
+	category(Sheet, 'Sheets'), 
+	parameter(Sheet, 'Sheet Name', SheetName), 
+	parameter(Sheet, 'Sheet Number', SheetNumber), 
+	!equals(SheetNumber, ''), 
+	objectMethod(Sheet, 'GetAllPlacedViews', Views), 
+	contains(Views, View), 
+    parameter(View, 'View Name', ViewName), 
+	parameter(View, 'Type', 'Legend'). 
+
+select(LegendName, TotalSheet, SheetNumbers, SheetNames) :- 
+	legendOnSheet(LegendName, SheetNumber, SheetName), 
+	group(SheetNumber, SheetNumbers), 
+    group(SheetName, SheetNames), 
+    count(SheetNumber, TotalSheet). 
+
+test(LegendName, TotalSheet, SheetNumbers, SheetNames) :- 
+	select(LegendName, TotalSheet, SheetNumbers, SheetNames), 
+	equals(TotalSheet, 1).

@@ -1,0 +1,41 @@
+% Calculate total glazed area (glazed curtain panels and windows) 
+% divided by total wall area.
+
+isGlazed(PanelID) :-
+    parameter(PanelID, 'Type Name', Name),
+    substring(Name, 'Glaz').
+
+glazedArea(Element, Area) :-
+	selected(Element),
+	category(Element, 'Curtain Panels'),
+    isGlazed(Element),
+    parameter(Element, 'Area', Area).
+    
+glazedArea(Element, Area) :-
+	selected(Element),
+    category(Element, 'Windows'),
+    parameter(Element, 'Area', Area).
+
+% Calculate total wall area within the selection.
+
+wallArea(Element, Area) :- 
+	selected(Element), 
+    category(Element, 'Walls'), 
+    parameter(Element, 'Area', Area). 
+
+totalGlazedArea(TotalGlazedArea, GlazedCount, GlazedElements) :-
+	glazedArea(Element, Area),
+    sum(Area, TotalGlazedArea),
+    count(Element, GlazedCount),
+    group(Element, GlazedElements).
+    
+totalWallArea(TotalWallArea, WallCount, Walls) :- 
+	wallArea(Element, Area), 
+    sum(Area, TotalWallArea), 
+    count(Element, WallCount), 
+    group(Element, Walls).
+    
+select(WindowWallRatio, TotalGlazedArea, TotalWallArea, Walls, GlazedElements) :-
+	totalWallArea(TotalWallArea, WallCount, Walls),
+    totalGlazedArea(TotalGlazedArea, GlazedCount, GlazedElements),
+    divide(TotalGlazedArea, TotalWallArea, WindowWallRatio).

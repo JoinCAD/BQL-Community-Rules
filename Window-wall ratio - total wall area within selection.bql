@@ -1,0 +1,12 @@
+% Calculate total wall area within the selection.
+
+wallArea(Element, Area) :- 
+	selected(Element), 
+    category(Element, 'Walls'), 
+    parameter(Element, 'Area', Area). 
+
+select(TotalWallArea, WallCount, Walls) :- 
+	wallArea(Element, Area), 
+    sum(Area, TotalWallArea), 
+    count(Element, WallCount), 
+    group(Element, Walls).

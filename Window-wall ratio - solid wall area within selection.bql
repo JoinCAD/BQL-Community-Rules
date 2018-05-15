@@ -1,0 +1,13 @@
+% Calculate solid wall area within the selection.
+
+solidWallArea(Element, Area) :- 
+	selected(Element), 
+    category(Element, 'Walls'), 
+    !parameter(Element, 'Family Name', 'Curtain Wall'), 
+    parameter(Element, 'Area', Area). 
+
+select(SolidWallArea, SolidWallCount, SolidWalls) :- 
+	solidWallArea(Element, Area), 
+    sum(Area, SolidWallArea), 
+    count(Element, SolidWallCount), 
+    group(Element, SolidWalls).

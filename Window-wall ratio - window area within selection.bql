@@ -1,0 +1,10 @@
+windowArea(Element, Area) :-
+	selected(Element),
+    category(Element, 'Windows'),
+    parameter(Element, 'Area', Area).
+
+select(WindowArea, WindowCount, Windows) :-
+	windowArea(Element, Area),
+    sum(Area, WindowArea),
+    count(Element, WindowCount),
+    group(Element, Windows).
