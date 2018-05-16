@@ -1,0 +1,8 @@
+% Find rooms that contain furniture.
+
+select(RoomNumber, RoomName, FurnitureList) :-
+	category(Furniture, 'Furniture'),
+	property(Furniture, 'Room', Room),
+    parameter(Room, 'Name', RoomName),
+    parameter(Room, 'Number', RoomNumber),
+    group(Furniture, FurnitureList).

@@ -1,0 +1,9 @@
+% Find all elements in rooms.
+
+select(RoomNumber, RoomName, ElementList, CategoryList) :-
+	property(Element, 'Room', Room),
+    parameter(Room, 'Name', RoomName),
+    parameter(Room, 'Number', RoomNumber),
+    group(Element, ElementList),
+    category(Element, Category),
+    group(Category, CategoryList).

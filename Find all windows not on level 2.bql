@@ -1,0 +1,4 @@
+select(Window, Level) :-
+	category(Window, 'Windows'),
+    level(Window, Level),
+    !equals(Level, '02 - Floor').
