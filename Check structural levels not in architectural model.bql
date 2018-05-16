@@ -1,0 +1,25 @@
+% Find structural levels that are not in the architectural model.
+% You can modify the substring(DocTitle, ' - S') to make it suitable for your model.
+
+levelData(Level, Name, Document, Elev, DocTitle) :-
+	class(Level, 'Level'),
+	parameter(Level, 'Name', Name),
+	property(Level, 'Document', Document),
+	property(Level, 'Elevation', Elev),
+	objectProperty(Document, 'Title', DocTitle).
+
+structuralLevel(Name, Elev) :-
+	levelData(Level, Name, Document, Elev, DocTitle),
+	substring(DocTitle, '- S').
+
+archLevel(Name, Elev) :-
+	levelData(Level, Name, Document, Elev, DocTitle),
+	substring(DocTitle, '- A').
+
+select(StrucLevel, StrucElev) :-
+	structuralLevel(StrucLevel, StrucElev).
+    
+test(StrucLevel, StrucElev) :-
+	archLevel(ArchLevel, _),
+    select(StrucLevel, StrucElev),
+    equals(ArchLevel, StrucLevel).
