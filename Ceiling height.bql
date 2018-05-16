@@ -1,0 +1,10 @@
+% Group ceilings by levels and height offset.
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+select(Level, HeightOffsetInFeet, Ceilings) :-
+	category(Ceiling, 'Ceilings'),
+    level(Ceiling, Level),
+    maybeParameter(Ceiling, 'Height Offset From Level', HeightOffsetInFeet),
+    group(Ceiling, Ceilings).

@@ -1,0 +1,18 @@
+% Find all curtainwalls.
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+curtainWallArea(TypeName, BaseLevel, TopLevel, Area, Element) :-
+    category(Element, 'Walls'), 
+    maybeParameter(Element, 'Family Name', FamilyName),
+    maybeParameter(Element, 'Type', Type),
+    maybeParameter(Type, 'Type Name', TypeName),
+    substring(FamilyName, 'Curtain Wall'),
+    maybeParameter(Element, 'Area', Area),
+    maybeParameter(Element, 'Base Constraint', BL),
+    maybeParameter(BL, 'Name', BaseLevel),
+    maybeParameter(Element, 'Top Constraint', TL),
+    maybeParameter(TL, 'Name', TopLevel).
+
+curtainWallArea(TypeName, BaseLevel, TopLevel, Area, Element)?

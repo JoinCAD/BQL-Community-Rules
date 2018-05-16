@@ -1,0 +1,27 @@
+% Find all architectural columns without structural columns nearby. 
+% Currently the threshold is set to 0.1ft.
+
+columnParameter(Column, ColumnName, BaseLevel, TopLevel) :-
+    parameter(Column, 'Family Name', ColumnName),
+    parameter(Column, 'Base Level', BL),
+    parameter(BL, 'Name', BaseLevel),
+    parameter(Column, 'Top Level', TL),
+    parameter(TL, 'Name', TopLevel).
+
+column(Column, ColumnName, BaseLevel, TopLevel) :-
+	category(Column, 'Columns'),
+    columnParameter(Column, ColumnName, BaseLevel, TopLevel).
+    
+structuralColumn(StructuralColumn, ColumnName, BaseLevel, TopLevel) :-
+	category(StructuralColumn, 'Structural Columns'),
+    columnParameter(StructuralColumn, ColumnName, BaseLevel, TopLevel).
+
+select(BaseLevel, TopLevel, ColumnName, Column) :-
+    column(Column, ColumnName, BaseLevel, TopLevel).
+    
+test(BaseLevel, TopLevel, ColumnName, Column) :-
+	select(BaseLevel, TopLevel, ColumnName, Column),
+    structuralColumn(StructuralColumn, _, SBaseLevel, STopLevel),
+    equals(SBaseLevel, BaseLevel),
+    equals(STopLevel, TopLevel),
+    within(StructuralColumn, Column, 0.1).

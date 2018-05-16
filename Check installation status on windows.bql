@@ -1,0 +1,14 @@
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+select(Level, Comment, FamilyName, Element) :-
+	category(Element, 'Windows'),
+    maybeParameter(Element, 'Family Name', FamilyName),
+    maybeParameter(Element, 'Level', L),
+    maybeParameter(L, 'Name', Level),
+	parameter(Element, 'Comments', Comment).
+    
+test(Level, Comment, FamilyName, Element) :-
+	select(Level, Comment, FamilyName, Element),
+    equals(Comment, 'installed').
