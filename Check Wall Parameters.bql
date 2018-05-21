@@ -1,0 +1,19 @@
+% Gets all columns, returns heights, compare to Level
+select (Walls, TypeName, FR) :-
+	
+%	equals(Walls, @6291),
+   	parameter(Walls, 'Type Name', TypeName),
+	parameter(Walls, 'Fire Rating', FR),
+    category(Walls, 'Walls').
+    
+isGoodWalls(TypeName, FR) :-
+ 	  !matchRegex(TypeName,'Generic'),
+      matchRegex(FR,'[a-z]').
+%     Name does not match Generic
+%	  Has a Type Mark
+%     has a keyNote?
+    
+test(Walls, TypeName, FR) :-
+  	select(Walls, TypeName, FR),
+	isGoodWalls(TypeName, FR).
+    
