@@ -1,0 +1,42 @@
+% Find all curtainwalls
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+curtainWallParameters(TypeName, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, Element) :-
+%     equals(Element, @153616),
+    category(Element, 'Walls'),
+    getGlazedArea(Element,GlazedArea),
+    parameter(Element, 'Area', Area),
+    maybeParameter(Element, 'Length', Length),
+    maybeParameter(Element, 'Unconnected Height', Height),
+    maybeParameter(Element, 'Family Name', FamilyName),
+    maybeParameter(Element, 'Type', Type),
+    maybeParameter(Type, 'Type Name', TypeName),
+    substring(FamilyName, 'Curtain Wall'),
+    maybeParameter(Element, 'Base Constraint', BL),
+    maybeParameter(BL, 'Name', BaseLevel),
+    maybeParameter(Element, 'Top Constraint', TL),
+    maybeParameter(TL, 'Name', TopLevel).
+
+% Calculate total glazed area (glazed curtain panels and windows) 
+
+isGlazed(PanelID) :-
+    parameter(PanelID, 'Type Name', Name),
+    substring(Name, 'Glaz').
+
+glazedArea(ChildElement, Area) :-
+	category(ChildElement, 'Curtain Panels'),
+    isGlazed(ChildElement),
+    parameter(ChildElement, 'Area', Area).
+
+getGlazedArea(Element, GlazedArea) :-
+    category(Child,'Curtain Panels'),
+   	isGlazed(Child),
+    parameter(Child, 'Area', Area),
+    sum(Area, GlazedArea),
+    group(Child, Children),
+    parameter(Element, 'Family Name', 'Curtain Wall'),
+%   divide(GlazedArea,TotalArea,Ratio),
+    host(Child,Element).
+    
+curtainWallParameters(TypeName, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, Element)?

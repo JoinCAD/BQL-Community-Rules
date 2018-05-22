@@ -1,0 +1,14 @@
+% Look for Doors that are not type-marked
+select (Doors, TypeName, FireRating, TypeMark) :-
+   	parameter(Doors, 'Type Name', TypeName),
+	parameter(Doors, 'Fire Rating', FireRating),
+    parameter(Doors, 'Type Mark', TypeMark),
+    category(Doors, 'Doors').
+    
+isTypedDoor(TypeName) :-
+ 	  matchRegex(TypeName,'[a-z]').
+
+test(Walls, TypeName, FireRating, TypeMark) :-
+  	select(Walls, TypeName, FireRating, TypeMark),
+	isTypedDoor(TypeName).
+    

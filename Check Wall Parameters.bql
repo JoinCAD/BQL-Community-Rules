@@ -1,19 +1,17 @@
-% Gets all columns, returns heights, compare to Level
-select (Walls, TypeName, FR) :-
+% Gets Wall Parameters and Identify Walls without data
+select (Walls, TypeName, FireRating, TypeMark, Struct) :-
 	
 %	equals(Walls, @6291),
    	parameter(Walls, 'Type Name', TypeName),
-	parameter(Walls, 'Fire Rating', FR),
+	parameter(Walls, 'Fire Rating', FireRating),
+    parameter(Walls, 'Type Mark', TypeMark),
+    parameter(Walls, 'Structural Material', Struct),
     category(Walls, 'Walls').
     
-isGoodWalls(TypeName, FR) :-
- 	  !matchRegex(TypeName,'Generic'),
-      matchRegex(FR,'[a-z]').
-%     Name does not match Generic
-%	  Has a Type Mark
-%     has a keyNote?
+isGoodWalls(TypeName) :-
+ 	  !matchRegex(TypeName,'Generic').
     
-test(Walls, TypeName, FR) :-
-  	select(Walls, TypeName, FR),
-	isGoodWalls(TypeName, FR).
+test(Walls, TypeName, FireRating, TypeMark, Struct) :-
+  	select(Walls, TypeName, FireRating, TypeMark, Struct),
+	isGoodWalls(TypeName).
     
