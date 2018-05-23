@@ -1,0 +1,17 @@
+% Gets Wall Parameters and Identify Walls without data
+
+select(TypeName, FireRating, TypeMark, Material, Walls) :-
+   	parameter(Wall, 'Type Name', TypeName),
+	parameter(Wall, 'Fire Rating', FireRating),
+    parameter(Wall, 'Type Mark', TypeMark),
+    material(Wall, Material),
+    group(Wall, Walls),
+    category(Wall, 'Walls').
+    
+isGoodWalls(TypeName) :-
+ 	!matchRegex(TypeName, 'Generic').
+    
+test(TypeName, FireRating, TypeMark, Material, Walls) :-
+  	select(TypeName, FireRating, TypeMark, Material, Walls),
+	isGoodWalls(TypeName).
+    

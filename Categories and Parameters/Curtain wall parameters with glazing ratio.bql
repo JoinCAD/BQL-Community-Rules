@@ -1,12 +1,13 @@
-% Review all curtain walls with parameters for Glazing Area and others
+% Review all curtain walls with parameters for glazing ratios and others.
 
 maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
 maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
 
-curtainWallParameters(TypeName, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, PanelCount, Element) :-
+curtainWallParameters(TypeName, GlazingRatio, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, PanelCount, Element) :-
     category(Element, 'Walls'),
-    getGlazedArea(Element,GlazedArea),
+    glazedArea(Element, GlazedArea),
     parameter(Element, 'Area', Area),
+    divide(GlazedArea, Area, GlazingRatio),
     maybeParameter(Element, 'Length', Length),
     maybeParameter(Element, 'Unconnected Height', Height),
     maybeParameter(Element, 'Family Name', FamilyName),
@@ -23,24 +24,18 @@ isGlazed(PanelID) :-
     parameter(PanelID, 'Type Name', Name),
     substring(Name, 'Glaz').
 
-glazedArea(ChildElement, Area) :-
-	category(ChildElement, 'Curtain Panels'),
-    isGlazed(ChildElement),
-    parameter(ChildElement, 'Area', Area).
-
-getGlazedArea(Element, GlazedArea) :-
+glazedArea(Element, GlazedArea) :-
     category(Child,'Curtain Panels'),
    	isGlazed(Child),
     parameter(Child, 'Area', Area),
     sum(Area, GlazedArea),
     group(Child, Children),
     parameter(Element, 'Family Name', 'Curtain Wall'),
-%   divide(GlazedArea,TotalArea,Ratio),
     host(Child,Element).
     
-panelCount(Element,Count) :-
+panelCount(Element, Count) :-
 	host(Child,Element),
     category(Child, 'Curtain Panels'),
     count(Child,Count).
     
-curtainWallParameters(TypeName, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, PanelCount, Element)?
+curtainWallParameters?
