@@ -33,9 +33,9 @@ glazedArea(Element, GlazedArea) :-
     parameter(Element, 'Family Name', 'Curtain Wall'),
     host(Child,Element).
     
-panelCount(Element,Count) :-
+panelCount(Element, Count) :-
 	host(Child,Element),
     category(Child, 'Curtain Panels'),
     count(Child,Count).
     
-curtainWallParameters(TypeName, GlazingRatio, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, PanelCount, Element)?
+curtainWallParameters?
