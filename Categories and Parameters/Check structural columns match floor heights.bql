@@ -5,16 +5,6 @@ maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
 elevation(Element, Value) :- parameter(Element, 'Elevation', Value).
 elevation(Element, 0.0) :- !parameter(Element, 'Elevation', Value).
 
-floorDistance(BL, TL, Distance) :-
-	parameter(BL, 'Elevation', BE),
-    parameter(TL, 'Elevation', TE),
-    subtract(TE, BE, Distance).
-
-maybeFloorDistance(BL, TL, Distance) :-
-	floorDistance(BL, TL, Distance).
-maybeFloorDistance(BL, TL, 0.0) :-
-	!floorDistance(BL, TL, _).
-
 select(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, TopOffset) :-
 	category(Column, 'Structural Columns'),
     maybeParameter(Column, 'Type Name', TypeName),
@@ -23,9 +13,11 @@ select(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset,
     maybeParameter(Column, 'Top Offset', TopOffset),
     maybeParameter(Column, 'Top Level', TL),
     maybeParameter(Column, 'Base Level', BL),
+    maybeParameter(TL, 'Elevation', TE),
+    maybeParameter(BL, 'Elevation', BE),
     maybeParameter(TL, 'Name', TopLevel), 
     maybeParameter(BL, 'Name', BaseLevel),
-    maybeFloorDistance(BL, TL, LevelDistance).
+    subtract(TE, BE, LevelDistance).
 
 test(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, TopOffset) :-
 	select(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, TopOffset),
