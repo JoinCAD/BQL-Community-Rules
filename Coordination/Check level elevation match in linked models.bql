@@ -20,6 +20,14 @@ select(Name, StrucElev, ArchElev) :-
 	structuralLevel(Name, StrucElev),
 	archLevel(Name, ArchElev).
 
+% BQL uses a small amount of rounding to compare numbers in
+% lessThanOrEqual and greaterThanOrEqual. Combining them
+% allows us to check that two numbers are "very close", even
+% if they are not exactly equal.
+numbersClose(A, B) :-
+	lessThanOrEqual(A, B),
+	greaterThanOrEqual(A, B).
+
 test(Name, StrucElev, ArchElev) :-
 	select(Name, StrucElev, ArchElev),
-	equals(StrucElev, ArchElev).
+	numbersClose(StrucElev, ArchElev).
