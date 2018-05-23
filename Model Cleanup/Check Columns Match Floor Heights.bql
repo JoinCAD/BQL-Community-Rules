@@ -1,0 +1,25 @@
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+select (Columns, Level, L, BE, TE ) :-
+	equals(Columns, @140949),
+   	maybeParameter(Columns, 'Length', L),
+ 	
+    maybeParameter(Columns, 'Top Level', TL),
+    maybeParameter(TL, 'Elevation', TE),
+
+    maybeParameter(Columns, 'Base Level', BL),
+    property(BL, 'Name', Level),
+    maybeParameter(BL, 'Elevation', BE),
+% 	subtract, divide, etc error w/o constants -- maybeParameter?
+%   subtract(BE,TE,D),
+	category(Columns, 'Structural Columns').
+    
+%  validThickness(TL, L,D) :- 
+%     greaterThan(T,0.1), can we get thickness? 
+%     lessThan(L,D).   less than floor to base  
+    
+%test(Column,D) :-
+%  	select(Column,D),
+%   validThickness(TL, L,D).
+    

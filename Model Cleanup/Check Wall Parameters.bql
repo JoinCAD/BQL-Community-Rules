@@ -1,4 +1,5 @@
 % Gets Wall Parameters and Identify Walls without data
+
 select (Walls, TypeName, FireRating, TypeMark, Struct) :-
 	
 %	equals(Walls, @6291),
