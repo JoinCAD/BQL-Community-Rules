@@ -21,8 +21,10 @@ select(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset,
 
 test(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, TopOffset) :-
 	select(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, TopOffset),
-    add(LevelDistance, 0.1, LD1),
-    add(Length, 0.1, L1),
+%   if column is less tall than level distance 
+    add(LevelDistance, 0.01, LD1), 
     greaterThanOrEqual(LD1, Length),
+%   if column is within structural thickness (need to replace 1.1 with plausible) of top level
+    add(Length, 1.1, L1),
     greaterThanOrEqual(L1, LevelDistance).
     
