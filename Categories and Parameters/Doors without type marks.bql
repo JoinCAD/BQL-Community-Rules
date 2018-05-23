@@ -1,0 +1,23 @@
+% Look for doors that are not type-marked
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+select (Door, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
+    maybeParameter(Door, 'Type Name', TypeName),
+    maybeParameter(Door, 'Level', L),
+    maybeParameter(L, 'Name', Level),
+    maybeParameter(Door, 'Type Mark', TypeMark),
+    property(Door, 'ToRoom', TR),
+    maybeParameter(TR, 'Name', ToRoom),
+    property(Door, 'FromRoom', FR),
+    maybeParameter(FR, 'Name', FromRoom),
+    category(Door, 'Doors').
+    
+isTypedDoor(TypeName) :-
+ 	  matchRegex(TypeName,'[0-9]+').
+
+test(Door, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
+  	select(Door, TypeName, TypeMark, Level, FromRoom, ToRoom),
+	isTypedDoor(TypeName).
+    
