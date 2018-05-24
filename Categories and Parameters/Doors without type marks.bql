@@ -3,7 +3,7 @@
 maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
 maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
 
-select (Door, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
+select (Doors, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
     maybeParameter(Door, 'Type Name', TypeName),
     maybeParameter(Door, 'Level', L),
     maybeParameter(L, 'Name', Level),
@@ -12,12 +12,13 @@ select (Door, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
     maybeParameter(TR, 'Name', ToRoom),
     property(Door, 'FromRoom', FR),
     maybeParameter(FR, 'Name', FromRoom),
+    group(Door, Doors),
     category(Door, 'Doors').
     
-isTypedDoor(TypeName) :-
- 	  matchRegex(TypeName,'[0-9]+').
+isTypedDoor(TypeMark) :-
+ 	  matchRegex(TypeMark,'[0-9]+').
 
-test(Door, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
-  	select(Door, TypeName, TypeMark, Level, FromRoom, ToRoom),
-	isTypedDoor(TypeName).
+test(Doors, TypeName, TypeMark, Level, FromRoom, ToRoom) :-
+  	select(Doors, TypeName, TypeMark, Level, FromRoom, ToRoom),
+	isTypedDoor(TypeMark).
     

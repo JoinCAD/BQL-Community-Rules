@@ -1,4 +1,4 @@
-% Gets Wall Parameters and Identify Walls without data
+% Gets Wall Parameters and Identify Walls without key parameters
 
 select(TypeName, FireRating, TypeMark, Material, Walls) :-
    	parameter(Wall, 'Type Name', TypeName),
@@ -8,10 +8,10 @@ select(TypeName, FireRating, TypeMark, Material, Walls) :-
     group(Wall, Walls),
     category(Wall, 'Walls').
     
-isGoodWalls(TypeName) :-
+isGoodWall(TypeName) :-
  	!matchRegex(TypeName, 'Generic').
     
 test(TypeName, FireRating, TypeMark, Material, Walls) :-
   	select(TypeName, FireRating, TypeMark, Material, Walls),
-	isGoodWalls(TypeName).
+	isGoodWall(TypeName).
     

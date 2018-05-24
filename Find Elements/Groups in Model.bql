@@ -1,0 +1,11 @@
+%Explore the Model Groups in the Model and Their Member Elements
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+select(Group, Category, MemberName, Members) :-
+	category(Group, Category),
+    objectMethod(Group, 'GetMemberIds', Members),
+    contains(Members,Member),
+    maybeParameter(Member, 'Family Name', MemberName ),
+    substring(Category,'Group').
