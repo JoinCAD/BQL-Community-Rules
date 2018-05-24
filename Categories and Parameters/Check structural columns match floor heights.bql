@@ -1,4 +1,5 @@
-% Check if the lengths of the structural columns match the distance between top and base levels.
+% Verify when the lengths of the structural columns fit the distance between top and base level structure.
+
 maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
 maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
 
@@ -24,7 +25,7 @@ test(Column, TypeName, Length, LevelDistance, BaseLevel, TopLevel, BaseOffset, T
 %   if column is less tall than level distance 
     add(LevelDistance, 0.01, LD1), 
     greaterThanOrEqual(LD1, Length),
-%   if column is within structural thickness (need to replace 1.1 with plausible) of top level
-    add(Length, 1.1, L1),
+%   and if column is within structural thickness (need to replace 1.1 with your test) of top level
+    add(Length, 1.5, L1),
     greaterThanOrEqual(L1, LevelDistance).
     

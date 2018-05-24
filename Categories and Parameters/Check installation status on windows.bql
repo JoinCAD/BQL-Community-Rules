@@ -7,7 +7,7 @@ select(Level, Comment, FamilyName, Element) :-
     maybeParameter(Element, 'Family Name', FamilyName),
     maybeParameter(Element, 'Level', L),
     maybeParameter(L, 'Name', Level),
-	parameter(Element, 'Comments', Comment).
+	maybeParameter(Element, 'Comments', Comment).
     
 test(Level, Comment, FamilyName, Element) :-
 	select(Level, Comment, FamilyName, Element),
