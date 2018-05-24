@@ -1,0 +1,10 @@
+select(Sheet,  Comment, Number, Description) :-
+	category(Cloud, 'Revision Clouds'),
+    parameter(Cloud, 'Revision Number', Number),
+    parameter(Cloud, 'Revision Description', Description),
+    parameter(Cloud, 'Comments', Comment),
+    
+    % get the sheet number
+    property(Cloud, 'OwnerViewId', SheetId),
+    parameter(SheetId, 'Sheet Number', Sheet).
+    
