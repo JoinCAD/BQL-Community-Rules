@@ -1,0 +1,7 @@
+sheetNumber('A').
+
+select(Sheet, Number) :-
+	category(Sheet, 'Sheets'),
+    parameter(Sheet, 'Sheet Number', Number),
+    matchRegex(Number, '^[A|G].*').
+    
