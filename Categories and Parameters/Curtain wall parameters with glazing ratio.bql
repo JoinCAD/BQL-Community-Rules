@@ -1,0 +1,41 @@
+% Review all curtain walls with parameters for glazing ratios and others.
+
+maybeParameter(Element, Key, Value ) :- parameter(Element, Key, Value). 
+maybeParameter(Element, Key, '') :- !parameter(Element, Key, Value).
+
+curtainWallParameters(TypeName, GlazingRatio, Height, BaseLevel, TopLevel, Length, GlazedArea, Area, PanelCount, Element) :-
+    category(Element, 'Walls'),
+    glazedArea(Element, GlazedArea),
+    parameter(Element, 'Area', Area),
+    divide(GlazedArea, Area, GlazingRatio),
+    maybeParameter(Element, 'Length', Length),
+    maybeParameter(Element, 'Unconnected Height', Height),
+    maybeParameter(Element, 'Family Name', FamilyName),
+    maybeParameter(Element, 'Type', Type),
+    maybeParameter(Type, 'Type Name', TypeName),
+    substring(FamilyName, 'Curtain Wall'),
+    panelCount(Element,PanelCount),
+    maybeParameter(Element, 'Base Constraint', BL),
+    maybeParameter(BL, 'Name', BaseLevel),
+    maybeParameter(Element, 'Top Constraint', TL),
+    maybeParameter(TL, 'Name', TopLevel).
+
+isGlazed(PanelID) :-
+    parameter(PanelID, 'Type Name', Name),
+    substring(Name, 'Glaz').
+
+glazedArea(Element, GlazedArea) :-
+    category(Child,'Curtain Panels'),
+   	isGlazed(Child),
+    parameter(Child, 'Area', Area),
+    sum(Area, GlazedArea),
+    group(Child, Children),
+    parameter(Element, 'Family Name', 'Curtain Wall'),
+    host(Child,Element).
+    
+panelCount(Element, Count) :-
+	host(Child,Element),
+    category(Child, 'Curtain Panels'),
+    count(Child,Count).
+    
+curtainWallParameters?
